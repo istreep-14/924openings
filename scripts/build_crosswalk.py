@@ -58,6 +58,7 @@ FAMILY_RULES = [
     (r"\bgr[uü]nfeld\b", "grunfeld-defense"),
     (r"\bnimzo[-\s]?indian\b", "nimzo-indian-defense"),
     (r"\bbogo[-\s]?indian\b", "bogo-indian-defense"),
+    (r"\bold\s+indian\b", "old-indian-defense"),
     (r"\bqueen'?s?\s+indian\b", "queens-indian-defense"),
     (r"\bking'?s?[-\s]?indian\b", "kings-indian-defense"),
     (r"\bslav\b", "slav-defense"),
@@ -73,6 +74,7 @@ FAMILY_RULES = [
     (r"\bveresov\b|\bjobava\b", "veresov-opening"),
     (r"\bking'?s?\s+gambit\b", "kings-gambit"),
     (r"\bcenter\s+game\b", "center-game"),
+    (r"\bthree\s+knights\b", "three-knights-opening"),
     (r"\bscandinavian\b", "scandinavian-defense"),
 ]
 
@@ -114,6 +116,8 @@ def canonical_family(name: str, eco_code: str) -> tuple[str, float]:
         return "dutch-defense", 0.90
     if re.match(r"A5[6-9]|A7\d", eco):
         return "benoni-defense", 0.85
+    if re.match(r"A5[3-5]", eco):
+        return "old-indian-defense", 0.90
     if re.match(r"D0\d|D3\d|D4\d|D6\d", eco):
         return "queens-gambit", 0.85
     if re.match(r"D1\d", eco):
@@ -130,6 +134,8 @@ def canonical_family(name: str, eco_code: str) -> tuple[str, float]:
         return "kings-indian-defense", 0.85
     if re.match(r"D7\d|D8\d|D9\d", eco):
         return "grunfeld-defense", 0.85
+    if re.match(r"C46", eco):
+        return "three-knights-opening", 0.90
 
     return "", 0.0
 
